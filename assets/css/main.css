@@ -1,8 +1,8 @@
 #main {
     /* background: url('../images/sturm.jpg') no-repeat; */
 }
-/* 
+
 QPushButton {
-    color: red;
-    width: 200px;
-} */
+    background: rgba(179, 213, 226, 0.445);
+    outline: none;
+}

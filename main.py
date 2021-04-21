@@ -5,7 +5,7 @@ from app.menu import Menu # Start page
 from app.settings import Settings # Settings page
 from app.online import Online # Connection to server
 from app.campaign import Campaign # Campaign page
-
+from app.audio import Audio
 
 class Window(QMainWindow):
 
@@ -17,6 +17,8 @@ class Window(QMainWindow):
         self.config = Config() # Include settings
         self.width = self.config.settings['screen']['width']
         self.height = self.config.settings['screen']['height']
+
+        self.audio = Audio()
 
         self.__initUI()
         
@@ -69,8 +71,20 @@ class Window(QMainWindow):
         pass
         # print(event.type)    
     
+    def keyPressEvent(self, event):
+        # print(event.key())
 
+        # print(QKeyEvent.isAutoRepeat(event))
+        pressed = QKeyEvent.isAutoRepeat(event)
+        if event.key() == 71 and not pressed:
+            KEYS['F'] = True
+            voice_thread = Thread(target=self.audio.record)
+            voice_thread.start()
 
+    def keyReleaseEvent(self, event):
+        released = QKeyEvent.isAutoRepeat(event)
+        if event.key() == 71 and released == False:
+            KEYS['F'] = False
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

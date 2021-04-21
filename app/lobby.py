@@ -1,13 +1,6 @@
 from config import *
 from config import PageWindow
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, \
-                            QGraphicsRectItem, QGraphicsPixmapItem, QGraphicsItem, QLabel, QPushButton, \
-                            QDesktopWidget, QFrame, QFileDialog, QPlainTextEdit, QGridLayout, QWidget, \
-                            QStackedWidget, QSizePolicy, QVBoxLayout
 
-from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIcon, QImage, QPalette, QDrag
-from PyQt5 import QtCore
-from PyQt5 import Qt
 
 class Lobby(PageWindow):
     def __init__(self):

@@ -1,1 +1,12 @@
-{"screen": {"width": 800, "height": 600}, "volume": {"music": 50, "voice": 50}}
+{
+    "screen": 
+    {
+        "width": 800, 
+        "height": 600
+    }, 
+    "volume": {
+        "music": 50, 
+        "voice": 50
+    }
+
+}
