@@ -1,16 +1,30 @@
-import sys, random, os
-import numpy as np
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, \
                             QGraphicsRectItem, QGraphicsPixmapItem, QGraphicsItem, QLabel, QPushButton, \
                             QDesktopWidget, QFrame, QFileDialog, QPlainTextEdit, QGridLayout, QWidget, \
-                            QStackedWidget
+                            QStackedWidget, QVBoxLayout
 
 from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIcon, QImage, QPalette, QDrag
 from PyQt5 import QtCore
 
+import sys
+import random
+import os
+import json
+import numpy as np
 
 _BASEDIR_ = os.path.dirname(__file__)
 sys.path.append(_BASEDIR_)
+
+DEFAULT = { 
+    'screen': { 
+        'width': 1600,
+        'height': 900     
+    },
+    'volume': {
+        'music': 50,
+        'voice': 50
+    }
+}
 
 class PageWindow(QMainWindow):
     gotoSignal = QtCore.pyqtSignal(str)
@@ -20,12 +34,17 @@ class PageWindow(QMainWindow):
 
 class Config():
 
+    settings = None
+
     def __init__(self):
         try:
-            settings = open('./app/settings/config.json')
+            self.settings = open('./settings/config.json', 'r+').read()
         except Exception:
             print(f'to default settings {Exception}')
-        else:
-            print('Opened')
+            if os.path.isdir('settings') == False:
+                os.mkdir('settings')
+            open('./settings/config.json', 'w+').write(json.dumps(DEFAULT))
+            self.settings = open('./settings/config.json', 'r+').read()
         finally:
-            print(settings)
+            self.settings = json.loads(self.settings)
+

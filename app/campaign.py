@@ -9,14 +9,14 @@ from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIco
 from PyQt5 import QtCore
 from PyQt5 import Qt
 
-class Lobby(PageWindow):
+class Campaign(PageWindow):
     def __init__(self):
         super().__init__()
 
         self.initUI()
 
     def initUI(self):       
-        self.setWindowTitle("Lobby")
+        self.setWindowTitle("Campaign")
         self.UiComponents()
 
     def UiComponents(self):
