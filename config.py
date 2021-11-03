@@ -11,7 +11,7 @@ import random
 import os
 import json
 import numpy as np
-from threading import Thread
+from threading import Thread, main_thread
 import pyaudio
 import wave
 import socket
@@ -29,6 +29,7 @@ class PageWindow(QMainWindow):
 
     def goto(self, name):
         self.gotoSignal.emit(name)
+
 
 
 

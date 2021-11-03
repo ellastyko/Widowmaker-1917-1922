@@ -1,11 +1,6 @@
 from config import *
-from config import PageWindow
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, \
-                            QGraphicsRectItem, QGraphicsPixmapItem, QGraphicsItem, QLabel, QPushButton, \
-                            QDesktopWidget, QFrame, QFileDialog, QPlainTextEdit, QGridLayout, QWidget, \
-                            QStackedWidget, QVBoxLayout, QOpenGLWidget, QHBoxLayout
+from PyQt5.QtWidgets import  QLabel, QPushButton,  QWidget, QVBoxLayout,  QHBoxLayout
 
-from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIcon, QImage, QPalette, QDrag, QKeyEvent
 from PyQt5 import QtCore
 
 fraction = ['Советы', 'УНР', 'Алашская автономия', 'Войско Донское', 'Финляндия', 'Комуч']
@@ -14,14 +9,10 @@ class Campaign(PageWindow):
     
     def __init__(self):
         super().__init__()
-
-        self.initUI()
-
-    def initUI(self):       
         self.setWindowTitle("Campaign")
-        self.UiComponents()
+        self.UIComponents()
 
-    def UiComponents(self):
+    def UIComponents(self):
         # QWidget
         widget = QWidget(self)
         self.setCentralWidget(widget)

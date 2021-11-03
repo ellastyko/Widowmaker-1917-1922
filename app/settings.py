@@ -32,23 +32,23 @@ class Settings(PageWindow):
 
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Settings")
+        
         try:
-            self.settings = open('./settings/config.json', 'r+').read()
+            self.settings = open('./config.json', 'r+').read()
         except Exception as e:
             print(f'to default settings {e}')
             if os.path.isdir('settings') == False:
                 os.mkdir('settings')
-            open('./settings/config.json', 'w+').write(json.dumps(DEFAULT))
-            self.settings = open('./settings/config.json', 'r+').read()
+            open('./config.json', 'w+').write(json.dumps(DEFAULT))
+            self.settings = open('./config.json', 'r+').read()
         finally:
             self.settings = json.loads(self.settings)
-        self.initUI()
 
-    def initUI(self):
-        self.setWindowTitle("Settings")
-        self.UiComponents()
+        self.UIComponents()
 
-    def UiComponents(self):
+
+    def UIComponents(self):
         # QWidget
         widget = QWidget(self)
         self.setCentralWidget(widget)

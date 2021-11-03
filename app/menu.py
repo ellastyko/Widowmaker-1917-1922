@@ -3,15 +3,15 @@ from config import PageWindow
 from app.client import Client
 
 class Menu(PageWindow):
+
+
     def __init__(self):
         super().__init__()
-        self.initUI()
-
-    def initUI(self):       
         self.setWindowTitle("Menu")
-        self.UiComponents()
+        self.UIComponents() 
+        
 
-    def UiComponents(self):
+    def UIComponents(self):
         # QWidget
         widget = QWidget(self)
         self.setCentralWidget(widget)

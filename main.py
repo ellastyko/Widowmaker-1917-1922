@@ -91,12 +91,12 @@ class Window(QMainWindow):
         if event.key() == 71 and released == False:
             KEYS['F'] = False
 
+   
+
 
 if __name__ == '__main__':
-    global MAIN
     app = QApplication(sys.argv)
     window = Window()
-    MAIN = window
     window.showFullScreen()
     sys.exit(app.exec_())
 

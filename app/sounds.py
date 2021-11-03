@@ -1,6 +1,5 @@
 from config import *
 
-
 class Sounds():
 
     CHUNK = 1024
@@ -9,18 +8,16 @@ class Sounds():
     RATE = 44100 # Частота дискретизации
 
     def __init__(self):
-        self.tracks = os.listdir(f'{os.getcwd()}\\assets\\audio\\tracks')
-        # listen_Theard = Thread(target=self.theme)
-        # listen_Theard.start()
+        self.tracks = os.listdir(f'{os.getcwd()}\\audio\\tracks')
 
-    def __del__(self):
-        pass
+        self.listen_Theard = Thread(target=self.theme)
+        self.listen_Theard.start()
+        
 
-
-    def play(self, effect):
+    def effect(self, effect):
         try:
             self.rec = pyaudio.PyAudio()
-            wf = wave.open(f"{os.getcwd()}\\assets\\audio\\other\\{effect}.wav", 'rb')
+            wf = wave.open(f"{os.getcwd()}\\audio\\effects\\{effect}.wav", 'r')
             stream = self.rec.open( format=self.rec.get_format_from_width(wf.getsampwidth()),
                                     channels=wf.getnchannels(),
                                     rate=wf.getframerate(),
@@ -39,24 +36,29 @@ class Sounds():
 
     def theme(self): 
         
-        for i in tracks:
-            try:
-                self.rec = pyaudio.PyAudio()
-                wf = wave.open(f"{os.getcwd()}\\assets\\audio\\tracks\\{i}", 'r')
-                stream = self.rec.open( format=self.rec.get_format_from_width(wf.getsampwidth()),
-                                        channels = wf.getnchannels(),
-                                        rate = wf.getframerate(),
-                                        output = True)
+        while True:
+            for i in self.tracks:
+                try:
+                    self.rec = pyaudio.PyAudio()
+                    wf = wave.open(f"{os.getcwd()}\\audio\\tracks\\{i}", 'r')
+                    stream = self.rec.open( format=self.rec.get_format_from_width(wf.getsampwidth()),
+                                            channels = wf.getnchannels(),
+                                            rate = wf.getframerate(),
+                                            output = True)
 
-                data = wf.readframes(self.CHUNK)
-                while len(data) > 0:
-                    stream.write(data)
                     data = wf.readframes(self.CHUNK)
-                
-                
-                stream.stop_stream()
-                stream.close()
-                self.rec.terminate()
-            except Exception as e:
-                print(f'Soundtracks aren`t playing: {e}')
+                    while len(data) > 0:
+                        
+                        if (main_thread().is_alive() is not True):
+                            return 0
+
+                        stream.write(data)
+                        data = wf.readframes(self.CHUNK)
+                    
+                    
+                    stream.stop_stream()
+                    stream.close()
+                    self.rec.terminate()
+                except Exception as e:
+                    print(f'Soundtracks aren`t playing: {e}')
             
