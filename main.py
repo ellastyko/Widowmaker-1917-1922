@@ -3,9 +3,10 @@ from config import *
 from app.lobby import Lobby # Online game
 from app.menu import Menu # Start page
 from app.settings import Settings # Settings page
-from app.online import Online # Connection to server
+from app.client import Client # Connection to server
 from app.campaign import Campaign # Campaign page
 from app.audio import Audio
+from app.sounds import Sounds
 
 class Window(QMainWindow):
 
@@ -14,11 +15,15 @@ class Window(QMainWindow):
     def __init__(self):
         
         super().__init__()
-        self.config = Config() # Include settings
-        self.width = self.config.settings['screen']['width']
-        self.height = self.config.settings['screen']['height']
+        
+        
+        self.menu = Menu()
+        self.settings = Settings()
+        self.lobby = Lobby()
+        self.campaign = Campaign()
 
-        self.audio = Audio()
+        # Поключаем звук меню и эффектов
+        self.sounds = Sounds()          
 
         self.__initUI()
         
@@ -40,16 +45,16 @@ class Window(QMainWindow):
         # Size
         self.setMinimumSize(800, 600)
         self.setMaximumSize(1600, 900)
-        self.setGeometry(0, 0, self.width, self.height)
+        # self.setGeometry(0, 0, self.width, self.height)
 
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
 
-        # Pages
-        self.__page(Menu(), "menu")
-        self.__page(Lobby(), "lobby")
-        self.__page(Campaign(), "campaign")
-        self.__page(Settings(), "settings")
+        # PAGES
+        self.__page(self.menu, "menu")
+        self.__page(self.lobby, "lobby")
+        self.__page(self.campaign, "campaign")
+        self.__page(self.settings, "settings")
         
         self.goto("menu")
 
@@ -67,29 +72,32 @@ class Window(QMainWindow):
             self.stacked_widget.setCurrentWidget(widget)
             self.setWindowTitle(widget.windowTitle())
 
+
     def resizeEvent(self, event):
-        pass
-        # print(event.type)    
+        print(event.type())    
     
+
     def keyPressEvent(self, event):
         # print(event.key())
-
-        # print(QKeyEvent.isAutoRepeat(event))
         pressed = QKeyEvent.isAutoRepeat(event)
         if event.key() == 71 and not pressed:
             KEYS['F'] = True
-            voice_thread = Thread(target=self.audio.record)
+            voice_thread = Thread(target=self.menu.client.audio.record)
             voice_thread.start()
+
 
     def keyReleaseEvent(self, event):
         released = QKeyEvent.isAutoRepeat(event)
         if event.key() == 71 and released == False:
             KEYS['F'] = False
 
+
 if __name__ == '__main__':
+    global MAIN
     app = QApplication(sys.argv)
     window = Window()
-    window.show()
+    MAIN = window
+    window.showFullScreen()
     sys.exit(app.exec_())
 
 

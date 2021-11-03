@@ -2,7 +2,21 @@
     /* background: url('../images/sturm.jpg') no-repeat; */
 }
 
+
+#header {
+    background: red;
+    z-index: 1;
+}
+
+#map {
+    border: 1px solid red;
+    /* width: 70%; */
+}
+
 QPushButton {
+
+    font: 400 16px 'Arial' ;
     background: rgba(179, 213, 226, 0.445);
     outline: none;
+    border: none;
 }

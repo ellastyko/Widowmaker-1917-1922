@@ -1,6 +1,6 @@
 from config import *
 from config import PageWindow
-
+from app.client import Client
 
 class Menu(PageWindow):
     def __init__(self):
@@ -44,6 +44,7 @@ class Menu(PageWindow):
 
         def handleButton():
             if button == "lobby":
+                # self.__client = Client()
                 self.goto("lobby")
             elif button == "campaign":
                 self.goto("campaign")
@@ -52,3 +53,7 @@ class Menu(PageWindow):
             elif button == "exit":
                 exit(1)
         return handleButton
+    
+    # @property
+    # def client(self):
+    #     return self.__client

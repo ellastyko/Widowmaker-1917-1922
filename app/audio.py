@@ -1,89 +1,61 @@
 from config import *
-import pyaudio
-import wave
-import sys
 
-
-tracks = ['hellobestie', 'farewell', 'k19',  'sadsong']
 
 class Audio():
+
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 2 
     RATE = 44100 # Частота дискретизации
-    RECORD_SECONDS = 5 
 
-    def __init__(self):
-        pass
+    def __init__(self, client=None, status=None):
+        
+        if status == 0:
+            self.theme()
+        elif status == 1:
+            self.client = client
+
+        # Record and listen
+        self.rec = pyaudio.PyAudio()
+        self.instream = self.rec.open(  format = self.FORMAT,
+                                        channels = self.CHANNELS,
+                                        rate = self.RATE,
+                                        input = True,
+                                        input_device_index = 1, 
+                                        frames_per_buffer = self.CHUNK)
+                                        
+        self.outstream = self.rec.open( format=self.FORMAT,
+                                        channels=self.CHANNELS,
+                                        rate=self.RATE,
+                                        output=True)
+        
+
+
+    def __del__(self):
+        self.instream.stop_stream()
+        self.instream.close()
+        self.outstream.stop_stream()
+        self.outstream.close()
+        
+        self.rec.terminate()     
+
 
     def record(self):
+
         global KEYS
-        self.message = pyaudio.PyAudio()
-        stream = self.message.open(format = self.FORMAT,
-                        channels = self.CHANNELS,
-                        rate = self.RATE,
-                        input = True,
-                        input_device_index = 1, 
-                        frames_per_buffer = self.CHUNK)
-
-        outstream = self.message.open(format=self.FORMAT,
-                channels=self.CHANNELS,
-                rate=self.RATE,
-                output=True)
-
-        print("* recording")
-
-        while KEYS['F'] == True:
-            data = stream.read(self.CHUNK)
-            # Голосовое эхо
-            outstream.write(data)
         
+        print("* recording")
+        while KEYS['F'] == True:
+            data = self.instream.read(self.CHUNK) 
+            # print(type(data))
+            self.client.send(data)
+
         print("* done recording")
-        stream.stop_stream()
-        stream.close()
-        self.message.terminate()
+        
 
+    def hear(self, data):
+        self.outstream.write(data) # data['voice']
 
-
-
-
-    def play(self, effect):
-
-        self.message = pyaudio.PyAudio()
-        wf = wave.open(f"../assets/audio/tracks/{effect}.wav", 'rb')
-        stream = self.message.open(format=self.message.get_format_from_width(wf.getsampwidth()),
-                        channels=wf.getnchannels(),
-                        rate=wf.getframerate(),
-                        output=True)
-        data = wf.readframes(self.CHUNK)
-        while len(data) > 0:
-            stream.write(data)
-            data = wf.readframes(self.CHUNK)
-        stream.stop_stream()
-        stream.close()
-        self.message.terminate()
-
-
-
-    def theme(self):   
-        for i in tracks:
-            try:
-                self.message = pyaudio.PyAudio()
-                wf = wave.open(f"../assets/audio/tracks/{i}.wav", 'r')
-                stream = self.message.open( format=self.message.get_format_from_width(wf.getsampwidth()),
-                                            channels = wf.getnchannels(),
-                                            rate = wf.getframerate(),
-                                            output = True)
-                data = wf.readframes(self.CHUNK)
-                while len(data) > 0:
-                    stream.write(data)
-                    data = wf.readframes(self.CHUNK)
-                stream.stop_stream()
-                stream.close()
-                self.message.terminate()
-            except Exception:
-                print(f'Soundtracks isn`t playing: {Exception}')
-            
         
 
 
