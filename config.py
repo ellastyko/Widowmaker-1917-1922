@@ -7,22 +7,7 @@ from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIco
 from PyQt5 import QtCore
 
 import sys
-import random
 import os
-import json
-import numpy as np
-from threading import Thread, main_thread
-import pyaudio
-import wave
-import socket
-
-_BASEDIR_ = os.path.dirname(__file__)
-sys.path.append(_BASEDIR_)
-
-KEYS = {
-    'F': False,
-    'W': False
-}
 
 class PageWindow(QMainWindow):
     gotoSignal = QtCore.pyqtSignal(str)
@@ -32,4 +17,9 @@ class PageWindow(QMainWindow):
 
 
 
+class env:
 
+    BASEDIR =  os.path.dirname(__file__)
+
+    def __init__(self) -> None:
+        sys.path.append(self.BASEDIR)

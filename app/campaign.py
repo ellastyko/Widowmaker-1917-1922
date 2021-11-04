@@ -1,7 +1,6 @@
-from config import *
-from PyQt5.QtWidgets import  QLabel, QPushButton,  QWidget, QVBoxLayout,  QHBoxLayout
-
+from PyQt5.QtWidgets import  QLabel, QPushButton,  QWidget, QVBoxLayout, QHBoxLayout
 from PyQt5 import QtCore
+from config import PageWindow
 
 fraction = ['Советы', 'УНР', 'Алашская автономия', 'Войско Донское', 'Финляндия', 'Комуч']
 

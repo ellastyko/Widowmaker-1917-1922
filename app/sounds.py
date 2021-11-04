@@ -1,4 +1,5 @@
-from config import *
+from threading import Thread, main_thread
+import pyaudio, glob, os, wave 
 
 class Sounds():
 
@@ -6,45 +7,57 @@ class Sounds():
     FORMAT = pyaudio.paInt16
     CHANNELS = 2 
     RATE = 44100 # Частота дискретизации
+    
+    themes = glob.glob(f"{os.getcwd()}\\audio\\themes\\*.wav")
+    effects = glob.glob(f"{os.getcwd()}\\audio\\effects\\*.wav")
+
 
     def __init__(self):
-        self.tracks = os.listdir(f'{os.getcwd()}\\audio\\tracks')
 
-        self.listen_Theard = Thread(target=self.theme)
+        self.pyaudio_effect = pyaudio.PyAudio()
+        
+        self.listen_Theard = Thread(target=self.play_theme)
         self.listen_Theard.start()
         
 
-    def effect(self, effect):
+    def play_effect(self, effect):
         try:
-            self.rec = pyaudio.PyAudio()
             wf = wave.open(f"{os.getcwd()}\\audio\\effects\\{effect}.wav", 'r')
-            stream = self.rec.open( format=self.rec.get_format_from_width(wf.getsampwidth()),
+            stream = self.rec.open( format=self.pyaudio_effect.get_format_from_width(wf.getsampwidth()),
                                     channels=wf.getnchannels(),
                                     rate=wf.getframerate(),
                                     output=True)
+
             data = wf.readframes(self.CHUNK)
+
             while len(data) > 0:
+                if (main_thread().is_alive() is not True):
+                    return 0
                 stream.write(data)
                 data = wf.readframes(self.CHUNK)
+
             stream.stop_stream()
             stream.close()
-            self.rec.terminate()
+            self.pyaudio_effect.terminate()
         except Exception as e:
-            print(f'Audio effect isn`t working: {e}')
+            print(f'Audio effects doesn`t work: {e}')
 
     
 
-    def theme(self): 
-        
+    def play_theme(self): 
+   
         while True:
-            for i in self.tracks:
+            for theme in self.themes:
                 try:
-                    self.rec = pyaudio.PyAudio()
-                    wf = wave.open(f"{os.getcwd()}\\audio\\tracks\\{i}", 'r')
-                    stream = self.rec.open( format=self.rec.get_format_from_width(wf.getsampwidth()),
-                                            channels = wf.getnchannels(),
-                                            rate = wf.getframerate(),
-                                            output = True)
+                    self.pyaudio_theme = pyaudio.PyAudio()
+                    
+                    wf = wave.open(theme, 'r')
+                    stream = self.pyaudio_theme.open( 
+                                                format=self.pyaudio_theme.get_format_from_width(wf.getsampwidth()),
+                                                channels = wf.getnchannels(),
+                                                rate = wf.getframerate(),
+                                                output = True
+                                            )
 
                     data = wf.readframes(self.CHUNK)
                     while len(data) > 0:
@@ -58,7 +71,7 @@ class Sounds():
                     
                     stream.stop_stream()
                     stream.close()
-                    self.rec.terminate()
+                    self.pyaudio_theme.terminate()
                 except Exception as e:
                     print(f'Soundtracks aren`t playing: {e}')
             

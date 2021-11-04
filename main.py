@@ -1,11 +1,12 @@
-from config import *
+
+from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
+from PyQt5.QtGui import  QBrush, QIcon, QImage, QPalette, QKeyEvent
+from PyQt5 import QtCore
+import sys
 # # # game modules # # #
-from app.lobby import Lobby # Online game
 from app.menu import Menu # Start page
 from app.settings import Settings # Settings page
-from app.client import Client # Connection to server
 from app.campaign import Campaign # Campaign page
-from app.audio import Audio
 from app.sounds import Sounds
 
 class Window(QMainWindow):
@@ -19,9 +20,7 @@ class Window(QMainWindow):
         
         self.menu = Menu()
         self.settings = Settings()
-        self.lobby = Lobby()
         self.campaign = Campaign()
-
         # Поключаем звук меню и эффектов
         self.sounds = Sounds()          
 
@@ -52,7 +51,7 @@ class Window(QMainWindow):
 
         # PAGES
         self.__page(self.menu, "menu")
-        self.__page(self.lobby, "lobby")
+        # self.__page(self.lobby, "lobby")
         self.__page(self.campaign, "campaign")
         self.__page(self.settings, "settings")
         

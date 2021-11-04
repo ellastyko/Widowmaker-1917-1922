@@ -1,13 +1,7 @@
-from config import *
 from config import PageWindow
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, \
-                            QGraphicsRectItem, QGraphicsPixmapItem, QGraphicsItem, QLabel, QPushButton, \
-                            QDesktopWidget, QFrame, QFileDialog, QPlainTextEdit, QGridLayout, QWidget, \
-                            QStackedWidget, QVBoxLayout, QOpenGLWidget, QHBoxLayout, QComboBox,  QSlider
-
-from PyQt5.QtGui import QPixmap, QTransform, QBrush, QColor, QPen, QCursor, QIcon, QImage, QPalette, QDrag, QKeyEvent
+from PyQt5.QtWidgets import  QLabel, QPushButton, QWidget, QVBoxLayout, QHBoxLayout, QComboBox,  QSlider
 from PyQt5 import QtCore
-# from PyQt5 import Qt
+import os, json
 
 DEFAULT = { 
     'graphics': {
